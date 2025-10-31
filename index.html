@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IFL Okul Ligi Puan Durumu</title>
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: #111; /* siyah arka plan */
+      color: #eaeaea; /* açık gri yazı */
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 25px;
+      color: #f1f1f1;
+      letter-spacing: 0.5px;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin: 0 auto;
+      width: 90%;
+      max-width: 800px;
+      background: #1a1a1a;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #333;
+    }
+
+    th {
+      background: #222;
+      color: #ccc;
+      text-transform: uppercase;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      color: #ddd;
+      font-size: 14px;
+    }
+
+    tr:nth-child(even) {
+      background: #181818;
+    }
+
+    tr:hover {
+      background: #2a2a2a;
+      transition: 0.2s ease;
+    }
+
+    .muted {
+      margin-top: 12px;
+      color: #777;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>IFL OKUL LİGİ GÜNCEL PUAN DURUMU</h1>
+  <div id="table-container">Yükleniyor...</div>
+  <div class="muted">Veriler Google Sheets'ten otomatik çekiliyor.</div>
+
+  <script>
+    const sheetId = "1fGN9FyOXlcNFY8YxE-fvcDRaUqaf0sFSl3EYUlgnZP0";
+    const gid = "1179338949";
+    const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
+
+    async function loadTable() {
+      try {
+        const res = await fetch(csvUrl);
+        const text = await res.text();
+        const rows = text.trim().split("\n").map(r => r.split(","));
+        const table = document.createElement("table");
+
+        const thead = document.createElement("thead");
+        const thr = document.createElement("tr");
+        rows[0].forEach(h => {
+          const th = document.createElement("th");
+          th.textContent = h;
+          thr.appendChild(th);
+        });
+        thead.appendChild(thr);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        rows.slice(1).forEach(row => {
+          const tr = document.createElement("tr");
+          row.forEach(cell => {
+            const td = document.createElement("td");
+            td.textContent = cell;
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+
+        const container = document.getElementById("table-container");
+        container.innerHTML = "";
+        container.appendChild(table);
+      } catch (err) {
+        document.getElementById("table-container").innerHTML =
+          "⚠️ Veri yüklenemedi: " + err.message;
+      }
+    }
+
+    loadTable();
+    setInterval(loadTable, 60000); // Her 60 saniyede bir güncelle
+  </script>
+
+</body>
+</html>
