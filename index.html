@@ -23,24 +23,24 @@
 
     .table-wrapper {
       width: 100%;
-      overflow-x: auto; /* mobilde kaydırma */
+      overflow-x: auto;
       -webkit-overflow-scrolling: touch;
     }
 
     table {
       border-collapse: collapse;
       margin: 0 auto;
-      width: 100%;
+      width: 95%; /* biraz daraltıldı */
       max-width: 800px;
       background: #1a1a1a;
       border-radius: 8px;
       overflow: hidden;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-      min-width: 400px;
+      min-width: 360px;
     }
 
     th, td {
-      padding: 10px 8px;
+      padding: 8px 6px; /* mobilde daha rahat sığar */
       border-bottom: 1px solid #333;
       text-align: center;
       white-space: nowrap;
@@ -69,18 +69,16 @@
     }
 
     @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
       h1 {
         font-size: 18px;
       }
       th, td {
-        padding: 8px 6px;
-        font-size: 12px;
+        padding: 6px 4px;
+        font-size: 11px;
       }
       table {
-        min-width: 300px;
+        width: 98%; /* dikeyde tam sığması için */
+        min-width: unset;
       }
     }
   </style>
