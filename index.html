@@ -7,16 +7,11 @@
   <style>
     body {
       font-family: "Inter", sans-serif;
-      background-color: #111;
-      color: #eaeaea;
-      display: flex;
-      flex-direction: column;
-      align-items: center; /* her şeyi ortala */
-      justify-content: flex-start;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
+      background-color: #111; /* siyah arka plan */
+      color: #eaeaea; /* açık gri yazı */
       text-align: center;
+      padding: 20px;
+      margin: 0;
     }
 
     h1 {
@@ -24,33 +19,28 @@
       margin-bottom: 25px;
       color: #f1f1f1;
       letter-spacing: 0.5px;
-      text-align: center;
     }
 
-    .table-wrapper {
+    .table-container {
       width: 100%;
-      display: flex;
-      justify-content: center; /* tabloyu ortala */
-      overflow-x: auto;
+      overflow-x: auto; /* mobilde yatay kaydırma */
       -webkit-overflow-scrolling: touch;
     }
 
     table {
       border-collapse: collapse;
+      margin: 0 auto;
       width: 90%;
       max-width: 800px;
       background: #1a1a1a;
       border-radius: 8px;
       overflow: hidden;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-      min-width: 400px;
     }
 
     th, td {
-      padding: 10px 8px;
+      padding: 10px 12px;
       border-bottom: 1px solid #333;
-      text-align: center;
-      white-space: nowrap;
     }
 
     th {
@@ -80,15 +70,12 @@
         padding: 10px;
       }
       h1 {
-        font-size: 18px;
-        margin-bottom: 15px;
+        font-size: 20px;
+        margin-bottom: 20px;
       }
       th, td {
         padding: 8px 6px;
         font-size: 12px;
-      }
-      table {
-        min-width: 320px;
       }
     }
   </style>
@@ -96,10 +83,7 @@
 <body>
 
   <h1>IFL OKUL LİGİ GÜNCEL PUAN DURUMU</h1>
-
-  <div class="table-wrapper">
-    <div id="table-container">Yükleniyor...</div>
-  </div>
+  <div class="table-container" id="table-container">Yükleniyor...</div>
 
   <script>
     const sheetId = "1fGN9FyOXlcNFY8YxE-fvcDRaUqaf0sFSl3EYUlgnZP0";
@@ -145,7 +129,7 @@
     }
 
     loadTable();
-    setInterval(loadTable, 60000);
+    setInterval(loadTable, 60000); // Her 60 saniyede bir güncelle
   </script>
 
 </body>
