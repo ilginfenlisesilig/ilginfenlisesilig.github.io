@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IFL Okul Ligi Puan Durumu</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IFL Turnuva Ağacı</title>
   <style>
     body {
       font-family: "Inter", sans-serif;
@@ -15,130 +15,219 @@
     }
 
     h1 {
-      font-size: 22px;
-      margin-bottom: 20px;
-      color: #f1f1f1;
-      letter-spacing: 0.5px;
-    }
-
-    .table-wrapper {
-      width: 100%;
-      overflow-x: auto; /* mobilde kaydırma */
-      -webkit-overflow-scrolling: touch;
-    }
-
-    table {
-      border-collapse: collapse;
-      margin: 0 auto;
-      width: 100%;
-      max-width: 800px;
-      background: #1a1a1a;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-      min-width: 400px;
-    }
-
-    th, td {
-      padding: 10px 8px;
-      border-bottom: 1px solid #333;
-      text-align: center;
-      white-space: nowrap;
-    }
-
-    th {
-      background: #222;
-      color: #ccc;
+      font-size: 24px;
+      margin-bottom: 30px;
+      color: #ffffff;
+      letter-spacing: 1px;
       text-transform: uppercase;
-      font-size: 12px;
+    }
+
+    .bracket-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+      overflow-x: auto;
+      padding: 20px 10px;
+    }
+
+    .round {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      gap: 30px;
+    }
+
+    .round-title {
+      font-size: 14px;
+      font-weight: bold;
+      color: #888;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .match-box {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      width: 220px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+
+    .match-box:hover {
+      transform: translateY(-2px);
+      border-color: #555;
+    }
+
+    .match-date {
+      background: #222;
+      color: #aaa;
+      font-size: 11px;
+      padding: 5px;
+      border-bottom: 1px solid #333;
+      text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
-    td {
+    .team-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      border-bottom: 1px solid #282828;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .team-row:last-child {
+      border-bottom: none;
+    }
+
+    .team-name {
       color: #ddd;
+    }
+
+    .score {
+      color: #ffcc00;
+      font-weight: bold;
+      background: #222;
+      padding: 2px 8px;
+      border-radius: 4px;
       font-size: 13px;
     }
 
-    tr:nth-child(even) {
-      background: #181818;
+    .champion-box {
+      border: 1px solid #ffcc00;
+      box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
     }
 
-    tr:hover {
-      background: #2a2a2a;
-      transition: 0.2s ease;
-    }
-
-    @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-      h1 {
-        font-size: 18px;
-      }
-      th, td {
-        padding: 8px 6px;
-        font-size: 12px;
-      }
-      table {
-        min-width: 300px;
+    @media (max-width: 768px) {
+      .bracket-container {
+        justify-content: flex-start;
       }
     }
   </style>
 </head>
 <body>
 
-  <h1>IFL OKUL LİGİ PUAN DURUMU</h1>
-  <div class="table-wrapper">
-    <div id="table-container">Yükleniyor...</div>
+  <h1>IFL TURNUVA AĞACI</h1>
+
+  <div class="bracket-container" id="bracket">
+    <!-- ÇEYREK FİNAL -->
+    <div class="round">
+      <div class="round-title">Çeyrek Final</div>
+      
+      <div class="match-box" id="match-QF1">
+        <div class="match-date">-</div>
+        <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
+        <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
+      </div>
+
+      <div class="match-box" id="match-QF2">
+        <div class="match-date">-</div>
+        <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
+        <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
+      </div>
+
+      <div class="match-box" id="match-QF3">
+        <div class="match-date">-</div>
+        <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
+        <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
+      </div>
+
+      <div class="match-box" id="match-QF4">
+        <div class="match-date">-</div>
+        <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
+        <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
+      </div>
+    </div>
+
+    <!-- YARI FİNAL -->
+    <div class="round">
+      <div class="round-title">Yarı Final</div>
+
+      <div class="match-box" id="match-SF1">
+        <div class="match-date">-</div>
+        <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
+        <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
+      </div>
+
+      <div class="match-box" id="match-SF2">
+        <div class="match-date">-</div>
+        <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
+        <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
+      </div>
+    </div>
+
+    <!-- FİNAL -->
+    <div class="round">
+      <div class="round-title">Final</div>
+
+      <div class="match-box champion-box" id="match-FINAL">
+        <div class="match-date">-</div>
+        <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
+        <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
+      </div>
+    </div>
   </div>
 
   <script>
-    const sheetId = "1fGN9FyOXlcNFY8YxE-fvcDRaUqaf0sFSl3EYUlgnZP0";
-    const gid = "1179338949";
-    const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
+    const sheetId = "1apkYHb2JWHu-nR7ifZB6vJ5Me6pZTvVin_5FPlMzQg4";
+    const tournamentRange = "TURNUVA!A2:F8";
 
-    async function loadTable() {
-      try {
-        const res = await fetch(csvUrl);
-        const text = await res.text();
-        const rows = text.trim().split("\n").map(r => r.split(","));
-        const table = document.createElement("table");
-
-        const thead = document.createElement("thead");
-        const thr = document.createElement("tr");
-        rows[0].forEach(h => {
-          const th = document.createElement("th");
-          th.textContent = h;
-          thr.appendChild(th);
-        });
-        thead.appendChild(thr);
-        table.appendChild(thead);
-
-        const tbody = document.createElement("tbody");
-        rows.slice(1).forEach(row => {
-          const tr = document.createElement("tr");
-          row.forEach(cell => {
-            const td = document.createElement("td");
-            td.textContent = cell;
-            tr.appendChild(td);
-          });
-          tbody.appendChild(tr);
-        });
-        table.appendChild(tbody);
-
-        const container = document.getElementById("table-container");
-        container.innerHTML = "";
-        container.appendChild(table);
-      } catch (err) {
-        document.getElementById("table-container").innerHTML =
-          "⚠️ Veri yüklenemedi: " + err.message;
-      }
+    function loadBracketData() {
+      const script = document.createElement('script');
+      script.src = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:handleBracket&range=${encodeURIComponent(tournamentRange)}`;
+      document.body.appendChild(script);
     }
 
-    loadTable();
-    setInterval(loadTable, 60000);
+    window.handleBracket = function(data) {
+      const rows = data.table.rows;
+
+      rows.forEach(r => {
+        if (!r.c || !r.c[0] || !r.c[0].v) return;
+
+        const matchCode = r.c[0].v.toString().trim();
+        const dateStr = r.c[2] && r.c[2].v ? r.c[2].v.toString() : "-";
+        const team1 = r.c[3] && r.c[3].v ? r.c[3].v.toString() : "-";
+        const team2 = r.c[4] && r.c[4].v ? r.c[4].v.toString() : "-";
+        const rawScore = r.c[5] && r.c[5].v ? r.c[5].v.toString() : "-";
+
+        let score1 = "-";
+        let score2 = "-";
+
+        if (rawScore.includes("-")) {
+          const parts = rawScore.split("-");
+          score1 = parts[0].trim();
+          score2 = parts[1].trim();
+        } else if (rawScore !== "-") {
+          score1 = rawScore;
+        }
+
+        const matchElem = document.getElementById(`match-${matchCode}`);
+        if (matchElem) {
+          matchElem.querySelector('.match-date').textContent = dateStr;
+          
+          const rowsElem = matchElem.querySelectorAll('.team-row');
+          if (rowsElem.length === 2) {
+            rowsElem[0].querySelector('.team-name').textContent = team1;
+            rowsElem[0].querySelector('.score').textContent = score1;
+
+            rowsElem[1].querySelector('.team-name').textContent = team2;
+            rowsElem[1].querySelector('.score').textContent = score2;
+          }
+        }
+      });
+    };
+
+    loadBracketData();
+    setInterval(loadBracketData, 60000);
   </script>
 
 </body>
 </html>
-
