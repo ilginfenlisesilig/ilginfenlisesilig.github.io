@@ -173,7 +173,6 @@
 
       <div class="match-box" id="match-SF2">
         <div class="match-date">-</div>
-        <div class="match-row">-</div> <!-- Yedek -->
         <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
         <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
       </div>
@@ -194,7 +193,7 @@
 
   <script>
     const sheetId = "1apkYHb2JWHu-nR7ifZB6vJ5Me6pZTvVin_5FPlMzQg4";
-    const tournamentRange = "TURNUVA!A2:F8";
+    const tournamentRange = "TURNUVA!A2:F8"; // F sütununa kadar tam okuma aralığı
 
     function loadBracketData() {
       const script = document.createElement('script');
@@ -211,18 +210,4 @@
         const matchCode = r.c[0].v.toString().trim(); // QF1, SF1, FINAL vb.
         const dateStr = r.c[2] && r.c[2].v ? r.c[2].v.toString() : "-";
         const team1 = r.c[3] && r.c[3].v ? r.c[3].v.toString() : "-";
-        const team2 = r.c[4] && r.c[4].v ? r.c[4].v.toString() : "-";
-        const rawScore = r.c[5] && r.c[5].v ? r.c[5].v.toString() : "-";
-
-        let score1 = "-";
-        let score2 = "-";
-
-        if (rawScore.includes("-")) {
-          const parts = rawScore.split("-");
-          score1 = parts[0].trim();
-          score2 = parts[1].trim();
-        } else if (rawScore !== "-") {
-          score1 = rawScore;
-        }
-
-        const
+        const team2 = r.c[4] && r.c[4].v ? r.c
