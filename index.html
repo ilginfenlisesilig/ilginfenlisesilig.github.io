@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IFL Turnuva Ağacı</title>
+    <title>İFL Turnuva Ağacı</title>
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: rgba(22, 27, 34, 0.85);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --gold: #f39c12;
-            --gold-glow: rgba(243, 156, 18, 0.3);
+            --bg-color: #121212;
+            --card-bg: rgba(30, 30, 30, 0.85);
+            --border-color: rgba(255, 255, 255, 0.12);
+            --gold: #f1c40f;
+            --gold-glow: rgba(241, 196, 15, 0.3);
             --text-main: #ffffff;
-            --text-muted: #8b949e;
+            --text-muted: #b0b0b0;
         }
 
         * {
@@ -30,7 +30,7 @@
             flex-direction: column;
             align-items: center;
             padding: 40px 20px;
-            background-image: radial-gradient(circle at 50% 0%, #1a233a 0%, var(--bg-color) 70%);
+            background-image: radial-gradient(circle at 50% 0%, #2b2b2b 0%, var(--bg-color) 70%);
         }
 
         h1 {
@@ -84,7 +84,7 @@
         }
 
         .match-card:hover {
-            border-color: rgba(243, 156, 18, 0.4);
+            border-color: rgba(241, 196, 15, 0.4);
             transform: translateY(-2px);
         }
 
@@ -137,13 +137,13 @@
         .team-score.has-score {
             border-color: var(--gold);
             color: var(--gold);
-            background: rgba(243, 156, 18, 0.08);
+            background: rgba(241, 196, 15, 0.08);
         }
     </style>
 </head>
 <body>
 
-    <h1>IFL TURNUVA AĞACI</h1>
+    <h1>İFL TURNUVA AĞACI</h1>
 
     <div class="tournament-container" id="tournamentTree">
         <!-- Tablo yüklenirken boş kalmaması için varsayılan tasarım gösterilir -->
@@ -154,9 +154,9 @@
 
         // Sayfa açılır açılmaz ekranda görünecek varsayılan veriler
         let m_data = {
-            'QF1': { takim1: '10/A', takim2: '11/B', skor: '3-1', tarih: '22 Aralık' },
-            'QF2': { takim1: '9/A', takim2: '-', skor: '-', tarih: '23 Aralık' },
-            'QF3': { takim1: '11/A', takim2: '9/B', skor: '-', tarih: '24 Aralık' },
+            'QF1': { takim1: '11-B', takim2: '12/A', skor: '9-2', tarih: '20 Ekim' },
+            'QF2': { takim1: '10-A', takim2: '10-B', skor: '1-0', tarih: '22 Ekim' },
+            'QF3': { takim1: '11/A', takim2: '12-B', skor: '-', tarih: '27 Ekim' },
             'QF4': { takim1: '12/A', takim2: '10/C', skor: '-', tarih: '25 Aralık' },
             'SF1': { takim1: '11a', takim2: '-', skor: '-', tarih: '28 Aralık' },
             'SF2': { takim1: '-', takim2: '-', skor: '-', tarih: '29 Aralık' },
