@@ -22,38 +22,40 @@
       text-transform: uppercase;
     }
 
+    /* Ağaç Şeması Konteyneri */
     .bracket-container {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 40px;
-      max-width: 1100px;
+      gap: 50px;
+      max-width: 1200px;
       margin: 0 auto;
       overflow-x: auto;
-      padding: 20px 10px;
+      padding: 20px;
     }
 
     .round {
       display: flex;
       flex-direction: column;
       justify-content: space-around;
-      gap: 30px;
+      gap: 25px;
     }
 
     .round-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: bold;
       color: #888;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
 
+    /* Maç Kutusu */
     .match-box {
       background: #1a1a1a;
       border: 1px solid #333;
       border-radius: 8px;
-      width: 220px;
+      width: 210px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
       overflow: hidden;
       transition: transform 0.2s ease;
@@ -64,23 +66,25 @@
       border-color: #555;
     }
 
+    /* Maç Tarihi / Bilgisi */
     .match-date {
       background: #222;
       color: #aaa;
-      font-size: 11px;
-      padding: 5px;
+      font-size: 10px;
+      padding: 4px;
       border-bottom: 1px solid #333;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
+    /* Takım Satırı */
     .team-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 12px;
+      padding: 9px 10px;
       border-bottom: 1px solid #282828;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: bold;
     }
 
@@ -90,17 +94,26 @@
 
     .team-name {
       color: #ddd;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 130px;
+      text-align: left;
     }
 
+    /* Skor Kutusu (Sarı) */
     .score {
       color: #ffcc00;
       font-weight: bold;
       background: #222;
-      padding: 2px 8px;
+      padding: 2px 6px;
       border-radius: 4px;
-      font-size: 13px;
+      font-size: 12px;
+      min-width: 20px;
+      text-align: center;
     }
 
+    /* Final Şampiyon Kutusu Vurgusu */
     .champion-box {
       border: 1px solid #ffcc00;
       box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
@@ -115,10 +128,11 @@
 </head>
 <body>
 
-  <h1>IFL TURNUVA AĞACI</h1>
+  <h1>İFL TURNUVA AĞACI</h1>
 
   <div class="bracket-container" id="bracket">
-    <!-- ÇEYREK FİNAL -->
+    
+    <!-- 1. SÜTUN: ÇEYREK FİNAL -->
     <div class="round">
       <div class="round-title">Çeyrek Final</div>
       
@@ -147,7 +161,7 @@
       </div>
     </div>
 
-    <!-- YARI FİNAL -->
+    <!-- 2. SÜTUN: YARI FİNAL -->
     <div class="round">
       <div class="round-title">Yarı Final</div>
 
@@ -159,12 +173,13 @@
 
       <div class="match-box" id="match-SF2">
         <div class="match-date">-</div>
+        <div class="match-row">-</div> <!-- Yedek -->
         <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
         <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
       </div>
     </div>
 
-    <!-- FİNAL -->
+    <!-- 3. SÜTUN: FİNAL -->
     <div class="round">
       <div class="round-title">Final</div>
 
@@ -174,6 +189,7 @@
         <div class="team-row"><span class="team-name">-</span><span class="score">-</span></div>
       </div>
     </div>
+
   </div>
 
   <script>
@@ -192,7 +208,7 @@
       rows.forEach(r => {
         if (!r.c || !r.c[0] || !r.c[0].v) return;
 
-        const matchCode = r.c[0].v.toString().trim();
+        const matchCode = r.c[0].v.toString().trim(); // QF1, SF1, FINAL vb.
         const dateStr = r.c[2] && r.c[2].v ? r.c[2].v.toString() : "-";
         const team1 = r.c[3] && r.c[3].v ? r.c[3].v.toString() : "-";
         const team2 = r.c[4] && r.c[4].v ? r.c[4].v.toString() : "-";
@@ -209,25 +225,4 @@
           score1 = rawScore;
         }
 
-        const matchElem = document.getElementById(`match-${matchCode}`);
-        if (matchElem) {
-          matchElem.querySelector('.match-date').textContent = dateStr;
-          
-          const rowsElem = matchElem.querySelectorAll('.team-row');
-          if (rowsElem.length === 2) {
-            rowsElem[0].querySelector('.team-name').textContent = team1;
-            rowsElem[0].querySelector('.score').textContent = score1;
-
-            rowsElem[1].querySelector('.team-name').textContent = team2;
-            rowsElem[1].querySelector('.score').textContent = score2;
-          }
-        }
-      });
-    };
-
-    loadBracketData();
-    setInterval(loadBracketData, 60000);
-  </script>
-
-</body>
-</html>
+        const
