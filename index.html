@@ -6,13 +6,15 @@
     <title>IFL Turnuva Ağacı</title>
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: rgba(22, 27, 34, 0.85);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --gold: #f39c12;
-            --gold-glow: rgba(243, 156, 18, 0.3);
-            --text-main: #ffffff;
-            --text-muted: #8b949e;
+            --bg-color: #121316;
+            --card-bg: #1c1e22;
+            --card-header-bg: #25282e;
+            --border-color: #2d3139;
+            --orange: #ff7700;
+            --orange-glow: rgba(255, 119, 0, 0.25);
+            --yellow: #ffb703;
+            --text-main: #f1f3f5;
+            --text-muted: #9aa0a6;
         }
 
         * {
@@ -30,7 +32,7 @@
             flex-direction: column;
             align-items: center;
             padding: 40px 20px;
-            background-image: radial-gradient(circle at 50% 0%, #1a233a 0%, var(--bg-color) 70%);
+            background-image: radial-gradient(circle at 50% 0%, #1e2026 0%, var(--bg-color) 75%);
         }
 
         h1 {
@@ -39,9 +41,10 @@
             margin-bottom: 40px;
             text-align: center;
             text-transform: uppercase;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-            border-bottom: 2px solid var(--gold);
+            text-shadow: 0 0 15px rgba(255, 119, 0, 0.2);
+            border-bottom: 3px solid var(--orange);
             padding-bottom: 10px;
+            color: #ffffff;
         }
 
         .tournament-container {
@@ -65,10 +68,10 @@
 
         .round-title {
             font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-muted);
+            font-weight: 700;
+            color: var(--orange);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             margin-bottom: 10px;
         }
 
@@ -78,190 +81,29 @@
             border-radius: 12px;
             width: 100%;
             overflow: hidden;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
         .match-card:hover {
-            border-color: rgba(243, 156, 18, 0.4);
+            border-color: var(--orange);
             transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(255, 119, 0, 0.15);
         }
 
         .match-card.final-card {
-            border: 1px solid var(--gold);
-            box-shadow: 0 0 25px var(--gold-glow);
+            border: 2px solid var(--orange);
+            box-shadow: 0 0 25px var(--orange-glow);
+            background: linear-gradient(145deg, #22252b, #1a1c21);
         }
 
         .match-header {
-            background: rgba(0, 0, 0, 0.25);
+            background: var(--card-header-bg);
             padding: 6px 12px;
-            font-size: 0.75rem;
-            color: var(--text-muted);
+            font-size: 0.8rem;
+            color: var(--yellow);
+            font-weight: 600;
             text-align: center;
             border-bottom: 1px solid var(--border-color);
             letter-spacing: 0.5px;
         }
-
-        .team-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 15px;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        .team-row:not(:last-child) {
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .team-name {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .team-score {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 2px 10px;
-            border-radius: 6px;
-            font-weight: 600;
-            min-width: 32px;
-            text-align: center;
-            font-size: 0.9rem;
-        }
-
-        .team-score.has-score {
-            border-color: var(--gold);
-            color: var(--gold);
-            background: rgba(243, 156, 18, 0.08);
-        }
-    </style>
-</head>
-<body>
-
-    <h1>IFL TURNUVA AĞACI</h1>
-
-    <div class="tournament-container" id="tournamentTree">
-        <!-- Tablo yüklenirken boş kalmaması için varsayılan tasarım gösterilir -->
-    </div>
-
-    <script>
-        const API_URL = 'https://script.google.com/macros/s/AKfycbyysbbG9AHwcw_Z-3_PVLqkrXldyF80ui_emfRSnIsCkkrmS-XIsWYdWJ09hXPZpWs8/exec';
-
-        // Sayfa açılır açılmaz ekranda görünecek varsayılan veriler
-        let m_data = {
-            'QF1': { takim1: '10/A', takim2: '11/B', skor: '3-1', tarih: '22 Aralık' },
-            'QF2': { takim1: '9/A', takim2: '-', skor: '-', tarih: '23 Aralık' },
-            'QF3': { takim1: '11/A', takim2: '9/B', skor: '-', tarih: '24 Aralık' },
-            'QF4': { takim1: '12/A', takim2: '10/C', skor: '-', tarih: '25 Aralık' },
-            'SF1': { takim1: '11a', takim2: '-', skor: '-', tarih: '28 Aralık' },
-            'SF2': { takim1: '-', takim2: '-', skor: '-', tarih: '29 Aralık' },
-            'FINAL': { takim1: '-', takim2: '-', skor: '5-5', tarih: '2 Ocak' }
-        };
-
-        function parseScore(skorStr, teamIndex) {
-            if (!skorStr || skorStr === '-' || skorStr === undefined) return '-';
-            const parts = String(skorStr).split('-');
-            if (parts.length === 2) {
-                return parts[teamIndex].trim();
-            }
-            return '-';
-        }
-
-        function createMatchHTML(code, isFinal = false) {
-            const data = m_data[code] || { takim1: '-', takim2: '-', skor: '-', tarih: '-' };
-            const s1 = parseScore(data.skor, 0);
-            const s2 = parseScore(data.skor, 1);
-            
-            const s1Class = s1 !== '-' ? 'team-score has-score' : 'team-score';
-            const s2Class = s2 !== '-' ? 'team-score has-score' : 'team-score';
-
-            return `
-                <div class="match-card ${isFinal ? 'final-card' : ''}">
-                    <div class="match-header">${data.tarih || code}</div>
-                    <div class="team-row">
-                        <span class="team-name">${data.takim1 || '-'}</span>
-                        <span class="${s1Class}">${s1}</span>
-                    </div>
-                    <div class="team-row">
-                        <span class="team-name">${data.takim2 || '-'}</span>
-                        <span class="${s2Class}">${s2}</span>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderTree() {
-            const html = `
-                <!-- ÇEYREK FİNAL -->
-                <div class="round-column">
-                    <div class="round-title">Çeyrek Final</div>
-                    ${createMatchHTML('QF1')}
-                    ${createMatchHTML('QF2')}
-                    ${createMatchHTML('QF3')}
-                    ${createMatchHTML('QF4')}
-                </div>
-
-                <!-- YARI FİNAL -->
-                <div class="round-column" style="justify-content: space-around;">
-                    <div class="round-title">Yarı Final</div>
-                    <div style="width: 100%; display: flex; flex-direction: column; gap: 30px;">
-                        ${createMatchHTML('SF1')}
-                        ${createMatchHTML('SF2')}
-                    </div>
-                </div>
-
-                <!-- FİNAL -->
-                <div class="round-column" style="justify-content: center;">
-                    <div class="round-title">Final</div>
-                    ${createMatchHTML('FINAL', true)}
-                </div>
-            `;
-
-            document.getElementById('tournamentTree').innerHTML = html;
-        }
-
-        // JSONP Yöntemi ile Google E-Tablolar'dan Veri Çekme (Redirect Engeline Takılmaz)
-        window.handleGoogleSheetData = function(rows) {
-            if (Array.isArray(rows)) {
-                rows.forEach(row => {
-                    if (row.kod) {
-                        const kod = String(row.kod).trim().toUpperCase();
-                        m_data[kod] = {
-                            tur: row.tur || '',
-                            tarih: row.tarih || '',
-                            takim1: row.takim1 || '-',
-                            takim2: row.takim2 || '-',
-                            skor: row.skor || '-'
-                        };
-                    }
-                });
-                renderTree();
-            }
-        };
-
-        function fetchLiveSheetData() {
-            const oldScript = document.getElementById('jsonp-script');
-            if (oldScript) oldScript.remove();
-
-            const script = document.createElement('script');
-            script.id = 'jsonp-script';
-            script.src = API_URL + '?callback=handleGoogleSheetData&t=' + new Date().getTime();
-            document.body.appendChild(script);
-        }
-
-        // İlk ekran oluşturması
-        renderTree();
-
-        // Canlı verileri çek
-        fetchLiveSheetData();
-
-        // Her 10 saniyede bir Google E-Tablo'yu kontrol et
-        setInterval(fetchLiveSheetData, 10000);
-    </script>
-</body>
-</html>
