@@ -192,8 +192,9 @@
   </div>
 
   <script>
-    const sheetId = "1fGN9FyOXlcNFY8YxE-fvcDRaUqaf0sFSl3EYUlgnZP0/edit?gid=1179338949";
-    const tournamentRange = "TURNUVA!A2:F8"; // F sütununa kadar tam okuma aralığı
+    // Yeni eklediğin tablonun güncel ID'si
+    const sheetId = "1fGN9FyOXlcNF8YxE-fvcDrAUqaf0sFSI3EYUIgnZP0";
+    const tournamentRange = "TURNUVA!A2:F8";
 
     function loadBracketData() {
       const script = document.createElement('script');
@@ -210,4 +211,40 @@
         const matchCode = r.c[0].v.toString().trim(); // QF1, SF1, FINAL vb.
         const dateStr = r.c[2] && r.c[2].v ? r.c[2].v.toString() : "-";
         const team1 = r.c[3] && r.c[3].v ? r.c[3].v.toString() : "-";
-        const team2 = r.c[4] && r.c[4].v ? r.c
+        const team2 = r.c[4] && r.c[4].v ? r.c[4].v.toString() : "-";
+        const rawScore = r.c[5] && r.c[5].v ? r.c[5].v.toString() : "-";
+
+        let score1 = "-";
+        let score2 = "-";
+
+        if (rawScore.includes("-")) {
+          const parts = rawScore.split("-");
+          score1 = parts[0].trim();
+          score2 = parts[1].trim();
+        } else if (rawScore !== "-") {
+          score1 = rawScore;
+        }
+
+        const matchElem = document.getElementById(`match-${matchCode}`);
+        if (matchElem) {
+          const dateElem = matchElem.querySelector('.match-date');
+          if (dateElem) dateElem.textContent = dateStr;
+          
+          const rowsElem = matchElem.querySelectorAll('.team-row');
+          if (rowsElem.length === 2) {
+            rowsElem[0].querySelector('.team-name').textContent = team1;
+            rowsElem[0].querySelector('.score').textContent = score1;
+
+            rowsElem[1].querySelector('.team-name').textContent = team2;
+            rowsElem[1].querySelector('.score').textContent = score2;
+          }
+        }
+      });
+    };
+
+    loadBracketData();
+    setInterval(loadBracketData, 60000);
+  </script>
+
+</body>
+</html>
