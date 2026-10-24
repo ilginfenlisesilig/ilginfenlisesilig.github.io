@@ -128,7 +128,7 @@
 </head>
 <body>
 
-  <h1>IFL TURNUVA AĞACI</h1>
+  <h1>İFL TURNUVA AĞACI</h1>
 
   <div class="bracket-container" id="bracket">
     
@@ -192,7 +192,6 @@
   </div>
 
   <script>
-    // Yeni eklediğin tablonun güncel ID'si
     const sheetId = "1fGN9FyOXlcNF8YxE-fvcDrAUqaf0sFSI3EYUIgnZP0";
     const tournamentRange = "TURNUVA!A2:F8";
 
@@ -203,12 +202,13 @@
     }
 
     window.handleBracket = function(data) {
+      console.log("Google Sheets Verisi Geldi:", data); // F12 konsolundan kontrol için
       const rows = data.table.rows;
 
       rows.forEach(r => {
         if (!r.c || !r.c[0] || !r.c[0].v) return;
 
-        const matchCode = r.c[0].v.toString().trim(); // QF1, SF1, FINAL vb.
+        const matchCode = r.c[0].v.toString().trim(); 
         const dateStr = r.c[2] && r.c[2].v ? r.c[2].v.toString() : "-";
         const team1 = r.c[3] && r.c[3].v ? r.c[3].v.toString() : "-";
         const team2 = r.c[4] && r.c[4].v ? r.c[4].v.toString() : "-";
@@ -235,7 +235,8 @@
             rowsElem[0].querySelector('.team-name').textContent = team1;
             rowsElem[0].querySelector('.score').textContent = score1;
 
-            rowsElem[1].querySelector('.team-name').textContent = team2;
+            rowsExpr = rowsElem[1].querySelector('.team-name');
+            if(rowsExpr) rowsExpr.textContent = team2;
             rowsElem[1].querySelector('.score').textContent = score2;
           }
         }
