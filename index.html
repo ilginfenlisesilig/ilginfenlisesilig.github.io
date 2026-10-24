@@ -7,7 +7,7 @@
     <style>
         :root {
             --bg-color: #0b0f19;
-            --card-bg: rgba(22, 27, 34, 0.7);
+            --card-bg: rgba(22, 27, 34, 0.85);
             --border-color: rgba(255, 255, 255, 0.08);
             --gold: #f39c12;
             --gold-glow: rgba(243, 156, 18, 0.3);
@@ -72,7 +72,6 @@
             margin-bottom: 5px;
         }
 
-        /* Maç Kutusu */
         .match-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -152,19 +151,12 @@
 </head>
 <body>
 
-    <h1>IFL TURNUVA AĞACI</h1>
+    <h1>İFL TURNUVA AĞACI</h1>
 
     <div class="tournament-container" id="tournamentTree">
         <div class="loading">Tablodan veriler yükleniyor...</div>
     </div>
 
     <script>
-        // Kendi Google E-Tablo ID'niz
-        const SPREADSHEET_ID = '1fGN9FyOXlcNFY8YxE-fvcDRaUqaf0sFSl3EYUlgnZP0/edit?gid=1179338949';
-        const GID = '1179338949'; // Sayfa GID numarası
-
-        async function fetchTournamentData() {
-            const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&gid=${GID}`;
-
-            try {
-                const response = await fetch
+        // Verdiğiniz Apps Script Web Uygulaması URL'si
+        const API_URL = '
