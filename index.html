@@ -32,7 +32,7 @@
             flex-direction: column;
             align-items: center;
             padding: 40px 20px;
-            background-image: radial-gradient(circle at 50% 0%, #1e2026 0%, var(--bg-color) 75%);
+            background-image: radial-gradient(circle at 50% 0%, #1a1c22 0%, var(--bg-color) 75%);
         }
 
         h1 {
@@ -107,3 +107,58 @@
             border-bottom: 1px solid var(--border-color);
             letter-spacing: 0.5px;
         }
+
+        .team-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .team-row:not(:last-child) {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .team-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .team-score {
+            background: #282c34;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            min-width: 34px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .team-score.has-score {
+            border-color: var(--orange);
+            color: var(--yellow);
+            background: rgba(255, 119, 0, 0.12);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>IFL TURNUVA AĞACI</h1>
+
+    <div class="tournament-container" id="tournamentTree">
+        <!-- Tablo yüklenirken boş kalmaması için varsayılan tasarım gösterilir -->
+    </div>
+
+    <script>
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyysbbG9AHwcw_Z-3_PVLqkrXldyF80ui_emfRSnIsCkkrmS-XIsWYdWJ09hXPZpWs8/exec';
+
+        // Sayfa açılır açılmaz ekranda görünecek varsayılan veriler
+        let m_data = {
+            'QF1': { takim1: '10/A', takim2: '11/B', skor: '3-1', tarih: '22 Aralık' },
+            'QF2': { takim1:
