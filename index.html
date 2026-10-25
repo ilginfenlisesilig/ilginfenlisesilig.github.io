@@ -48,7 +48,7 @@
             display: flex;
             gap: 40px;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             max-width: 1200px;
             width: 100%;
             flex-wrap: wrap;
@@ -59,7 +59,7 @@
             flex-direction: column;
             gap: 20px;
             flex: 1;
-            min-width: 260px;
+            min-width: 280px;
             align-items: center;
         }
 
@@ -70,6 +70,22 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 10px;
+        }
+
+        .match-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .match-label {
+            font-size: 0.8rem;
+            color: var(--gold);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-left: 4px;
+            text-transform: uppercase;
         }
 
         .match-card {
@@ -139,6 +155,21 @@
             color: var(--gold);
             background: rgba(241, 196, 15, 0.08);
         }
+
+        .match-footer-referee {
+            background: rgba(0, 0, 0, 0.35);
+            border-top: 1px solid var(--border-color);
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .match-footer-referee span {
+            color: var(--text-main);
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -152,15 +183,15 @@
     <script>
         const API_URL = 'https://script.google.com/macros/s/AKfycbyysbbG9AHwcw_Z-3_PVLqkrXldyF80ui_emfRSnIsCkkrmS-XIsWYdWJ09hXPZpWs8/exec';
 
-        // Sayfa açılır açılmaz ekranda görünecek varsayılan veriler
+        // Sayfa açılır açılmaz ekranda görünecek varsayılan veriler (Hakemler eklendi)
         let m_data = {
-            'QF1': { takim1: '11-B', takim2: '12/A', skor: '9-2', tarih: '20.10.2026' },
-            'QF2': { takim1: '10-A', takim2: '10-B', skor: '1-0', tarih: '22.10.2026' },
-            'QF3': { takim1: '11/A', takim2: '12-B', skor: '-', tarih: '27.10.2026' },
-            'QF4': { takim1: '9/A', takim2: '9/B', skor: '-', tarih: '03.11.2026' },
-            'SF1': { takim1: '11/B', takim2: '10/A', skor: '-', tarih: '10.11.2026' },
-            'SF2': { takim1: '(11/A - 12/A)', takim2: '(9/A - 9/B)', skor: '-', tarih: '12.11.2026' },
-            'FINAL': { takim1: 'YF1', takim2: 'YF2', skor: '-', tarih: '17.11.2026' }
+            'QF1': { takim1: '11-B', takim2: '12/A', skor: '9-2', tarih: '20.10.2026', hakem: 'Ahmet Yılmaz' },
+            'QF2': { takim1: '10-A', takim2: '10-B', skor: '1-0', tarih: '22.10.2026', hakem: 'Mehmet Demir' },
+            'QF3': { takim1: '11/A', takim2: '12-B', skor: '-', tarih: '27.10.2026', hakem: '-' },
+            'QF4': { takim1: '9/A', takim2: '9/B', skor: '-', tarih: '03.11.2026', hakem: '-' },
+            'SF1': { takim1: '11/B', takim2: '10/A', skor: '-', tarih: '10.11.2026', hakem: '-' },
+            'SF2': { takim1: '(11/A - 12/A)', takim2: '(9/A - 9/B)', skor: '-', tarih: '12.11.2026', hakem: '-' },
+            'FINAL': { takim1: 'YF1', takim2: 'YF2', skor: '-', tarih: '17.11.2026', hakem: '-' }
         };
 
         function parseScore(skorStr, teamIndex) {
@@ -172,24 +203,31 @@
             return '-';
         }
 
-        function createMatchHTML(code, isFinal = false) {
-            const data = m_data[code] || { takim1: '-', takim2: '-', skor: '-', tarih: '-' };
+        function createMatchHTML(code, labelText, isFinal = false) {
+            const data = m_data[code] || { takim1: '-', takim2: '-', skor: '-', tarih: '-', hakem: '-' };
             const s1 = parseScore(data.skor, 0);
             const s2 = parseScore(data.skor, 1);
             
             const s1Class = s1 !== '-' ? 'team-score has-score' : 'team-score';
             const s2Class = s2 !== '-' ? 'team-score has-score' : 'team-score';
+            const refereeName = data.hakem && data.hakem !== '-' ? data.hakem : 'Atanmadı';
 
             return `
-                <div class="match-card ${isFinal ? 'final-card' : ''}">
-                    <div class="match-header">${data.tarih || code}</div>
-                    <div class="team-row">
-                        <span class="team-name">${data.takim1 || '-'}</span>
-                        <span class="${s1Class}">${s1}</span>
-                    </div>
-                    <div class="team-row">
-                        <span class="team-name">${data.takim2 || '-'}</span>
-                        <span class="${s2Class}">${s2}</span>
+                <div class="match-wrapper">
+                    <div class="match-label">${labelText}</div>
+                    <div class="match-card ${isFinal ? 'final-card' : ''}">
+                        <div class="match-header">${data.tarih || code}</div>
+                        <div class="team-row">
+                            <span class="team-name">${data.takim1 || '-'}</span>
+                            <span class="${s1Class}">${s1}</span>
+                        </div>
+                        <div class="team-row">
+                            <span class="team-name">${data.takim2 || '-'}</span>
+                            <span class="${s2Class}">${s2}</span>
+                        </div>
+                        <div class="match-footer-referee">
+                            Hakem: <span>${refereeName}</span>
+                        </div>
                     </div>
                 </div>
             `;
@@ -200,32 +238,34 @@
                 <!-- ÇEYREK FİNAL -->
                 <div class="round-column">
                     <div class="round-title">Çeyrek Final</div>
-                    ${createMatchHTML('QF1')}
-                    ${createMatchHTML('QF2')}
-                    ${createMatchHTML('QF3')}
-                    ${createMatchHTML('QF4')}
+                    ${createMatchHTML('QF1', '1. Çeyrek Final')}
+                    ${createMatchHTML('QF2', '2. Çeyrek Final')}
+                    ${createMatchHTML('QF3', '3. Çeyrek Final')}
+                    ${createMatchHTML('QF4', '4. Çeyrek Final')}
                 </div>
 
                 <!-- YARI FİNAL -->
-                <div class="round-column" style="justify-content: space-around;">
+                <div class="round-column" style="justify-content: center;">
                     <div class="round-title">Yarı Final</div>
-                    <div style="width: 100%; display: flex; flex-direction: column; gap: 30px;">
-                        ${createMatchHTML('SF1')}
-                        ${createMatchHTML('SF2')}
+                    <div style="width: 100%; display: flex; flex-direction: column; gap: 30px; margin-top: 20px;">
+                        ${createMatchHTML('SF1', '1. Yarı Final')}
+                        ${createMatchHTML('SF2', '2. Yarı Final')}
                     </div>
                 </div>
 
                 <!-- FİNAL -->
                 <div class="round-column" style="justify-content: center;">
                     <div class="round-title">Final</div>
-                    ${createMatchHTML('FINAL', true)}
+                    <div style="margin-top: 20px; width: 100%;">
+                        ${createMatchHTML('FINAL', 'Büyük Final', true)}
+                    </div>
                 </div>
             `;
 
             document.getElementById('tournamentTree').innerHTML = html;
         }
 
-        // JSONP Yöntemi ile Google E-Tablolar'dan Veri Çekme (Redirect Engeline Takılmaz)
+        // JSONP Yöntemi ile Google E-Tablolar'dan Veri Çekme
         window.handleGoogleSheetData = function(rows) {
             if (Array.isArray(rows)) {
                 rows.forEach(row => {
@@ -236,7 +276,8 @@
                             tarih: row.tarih || '',
                             takim1: row.takim1 || '-',
                             takim2: row.takim2 || '-',
-                            skor: row.skor || '-'
+                            skor: row.skor || '-',
+                            hakem: row.hakem || '-'
                         };
                     }
                 });
