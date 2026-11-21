@@ -220,14 +220,11 @@
 
     <h1>IFL TURNUVA AĞACI</h1>
 
-    <div class="tournament-container" id="tournamentTree">
-        <!-- Tablo yüklenirken boş kalmaması için varsayılan tasarım gösterilir -->
-    </div>
+    <div class="tournament-container" id="tournamentTree"></div>
 
     <script>
         const API_URL = 'https://script.google.com/macros/s/AKfycbyysbbG9AHwcw_Z-3_PVLqkrXldyF80ui_emfRSnIsCkkrmS-XIsWYdWJ09hXPZpWs8/exec';
 
-        // Sayfa açılır açılmaz ekranda görünecek varsayılan veriler
         let m_data = {
             'QF1': { takim1: '11-B', takim2: '12/A', skor: '9-2', penalti: '', tarih: '20.10.2026', hakem: 'Mehmet Doğan' },
             'QF2': { takim1: '10-A', takim2: '10-B', skor: '1-0', penalti: '', tarih: '22.10.2026', hakem: 'Fatih Teper' },
@@ -239,12 +236,14 @@
         };
 
         function parsePair(pairStr, index) {
-            if (!pairStr || pairStr === '-' || pairStr === undefined) return '-';
-            const parts = String(pairStr).split('-');
-            if (parts.length === 2) {
-                const val = parts[index].trim();
-                return val !== '' ? val : '-';
-            }
+            try {
+                if (!pairStr || pairStr === '-') return '-';
+                const parts = String(pairStr).split('-');
+                if (parts.length >= 2) {
+                    const val = parts[index].trim();
+                    return val !== '' ? val : '-';
+                }
+            } catch (e) {}
             return '-';
         }
 
@@ -259,4 +258,155 @@
 
             const s1Class = s1 !== '-' ? 'team-score has-score' : 'team-score';
             const s2Class = s2 !== '-' ? 'team-score has-score' : 'team-score';
-            const refereeName = data.hakem && data.hakem !== '-' ? data
+            const refereeName = data.hakem && data.hakem !== '-' ? data.hakem : 'Atanmadı';
+
+            const numS1 = Number(s1);
+            const numS2 = Number(s2);
+            const hasValidScores = s1 !== '-' && s2 !== '-' && !Number.isNaN(numS1) && !Number.isNaN(numS2);
+
+            let team1Wins = false;
+            let team2Wins = false;
+            let wonByPenalties = false;
+
+            if (hasValidScores) {
+                if (numS1 > numS2) {
+                    team1Wins = true;
+                } else if (numS2 > numS1) {
+                    team2Wins = true;
+                } else if (numS1 === numS2 && hasPenalties) {
+                    const numP1 = Number(p1);
+                    const numP2 = Number(p2);
+                    if (!Number.isNaN(numP1) && !Number.isNaN(numP2) && numP1 !== numP2) {
+                        team1Wins = numP1 > numP2;
+                        team2Wins = numP2 > numP1;
+                        wonByPenalties = true;
+                    }
+                }
+            }
+
+            let penaltyNoteHTML = '';
+            if (hasPenalties) {
+                const winnerTeam = wonByPenalties ? (team1Wins ? data.takim1 : data.takim2) : '';
+                penaltyNoteHTML = wonByPenalties
+                    ? `<div class="penalty-note">Penaltılarla ${winnerTeam} kazandı (${p1}-${p2})</div>`
+                    : `<div class="penalty-note">Penaltılar: ${p1}-${p2}</div>`;
+            }
+
+            const pen1Badge = hasPenalties ? `<span class="pen-score">(${p1}P)</span>` : '';
+            const pen2Badge = hasPenalties ? `<span class="pen-score">(${p2}P)</span>` : '';
+
+            const badgeLabel = isFinal ? 'ŞAMPİYON' : 'TUR';
+            const win1Badge = team1Wins ? `<span class="winner-badge">${badgeLabel}</span>` : '';
+            const win2Badge = team2Wins ? `<span class="winner-badge">${badgeLabel}</span>` : '';
+
+            return `
+                <div class="match-wrapper">
+                    <div class="match-label">${labelText}</div>
+                    <div class="match-card ${isFinal ? 'final-card' : ''}">
+                        <div class="match-header">${data.tarih || code}</div>
+                        <div class="team-row ${team1Wins ? 'winner-row' : ''}">
+                            <span class="team-name">${data.takim1 || '-'} ${win1Badge}</span>
+                            <span class="score-group">
+                                ${pen1Badge}
+                                <span class="${s1Class}">${s1}</span>
+                            </span>
+                        </div>
+                        <div class="team-row ${team2Wins ? 'winner-row' : ''}">
+                            <span class="team-name">${data.takim2 || '-'} ${win2Badge}</span>
+                            <span class="score-group">
+                                ${pen2Badge}
+                                <span class="${s2Class}">${s2}</span>
+                            </span>
+                        </div>
+                        ${penaltyNoteHTML}
+                        <div class="match-footer-referee">
+                            Hakem: <span>${refereeName}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderTree() {
+            try {
+                const container = document.getElementById('tournamentTree');
+                if (!container) return;
+
+                container.innerHTML = `
+                    <div class="round-column">
+                        <div class="round-title">Çeyrek Final</div>
+                        ${createMatchHTML('QF1', '1. Çeyrek Final')}
+                        ${createMatchHTML('QF2', '2. Çeyrek Final')}
+                        ${createMatchHTML('QF3', '3. Çeyrek Final')}
+                        ${createMatchHTML('QF4', '4. Çeyrek Final')}
+                    </div>
+
+                    <div class="round-column" style="justify-content: center;">
+                        <div class="round-title">Yarı Final</div>
+                        <div style="width: 100%; display: flex; flex-direction: column; gap: 30px; margin-top: 20px;">
+                            ${createMatchHTML('SF1', '1. Yarı Final')}
+                            ${createMatchHTML('SF2', '2. Yarı Final')}
+                        </div>
+                    </div>
+
+                    <div class="round-column" style="justify-content: center;">
+                        <div class="round-title">Final</div>
+                        <div style="margin-top: 20px; width: 100%;">
+                            ${createMatchHTML('FINAL', 'Büyük Final', true)}
+                        </div>
+                    </div>
+                `;
+            } catch (err) {
+                console.error('Render hatası:', err);
+            }
+        }
+
+        window.handleGoogleSheetData = function(rows) {
+            try {
+                if (!Array.isArray(rows)) return;
+                rows.forEach(row => {
+                    if (!row || !row.kod) return;
+                    const kod = String(row.kod).trim().toUpperCase();
+                    const mevcut = m_data[kod] || {};
+
+                    const penaltiVal = row.penalti !== undefined && row.penalti !== null && String(row.penalti).trim() !== ''
+                        ? String(row.penalti).trim()
+                        : (row.penalti1 !== undefined && row.penalti2 !== undefined
+                            ? `${row.penalti1}-${row.penalti2}`
+                            : (mevcut.penalti || ''));
+
+                    m_data[kod] = {
+                        tur: row.tur || mevcut.tur || '',
+                        tarih: row.tarih || mevcut.tarih || '',
+                        takim1: row.takim1 || mevcut.takim1 || '-',
+                        takim2: row.takim2 || mevcut.takim2 || '-',
+                        skor: row.skor || mevcut.skor || '-',
+                        penalti: penaltiVal,
+                        hakem: row.hakem || mevcut.hakem || '-'
+                    };
+                });
+                renderTree();
+            } catch (err) {
+                console.error('Sheet veri hatası:', err);
+            }
+        };
+
+        function fetchLiveSheetData() {
+            try {
+                const oldScript = document.getElementById('jsonp-script');
+                if (oldScript) oldScript.remove();
+
+                const script = document.createElement('script');
+                script.id = 'jsonp-script';
+                script.src = API_URL + '?callback=handleGoogleSheetData&t=' + Date.now();
+                script.onerror = function() {};
+                document.body.appendChild(script);
+            } catch (err) {}
+        }
+
+        renderTree();
+        fetchLiveSheetData();
+        setInterval(fetchLiveSheetData, 10000);
+    </script>
+</body>
+</html>
